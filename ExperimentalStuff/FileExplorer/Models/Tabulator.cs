@@ -11,9 +11,9 @@ namespace FileExplorer.Models
     {
         public Tabulator(string name)
         {
-            TabName = name;
+            Name = name;
         }
 
-        public string TabName { get; set; }
+        public string Name { get; set; }
     }
 }
