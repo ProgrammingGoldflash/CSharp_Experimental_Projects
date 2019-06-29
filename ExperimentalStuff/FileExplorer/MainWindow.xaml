@@ -36,13 +36,22 @@
         <dragablz:TabablzControl Name="ExplorerManager" Grid.Row="1" Grid.ColumnSpan="3">
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding}" />
+                    <Label Content="{Binding TabName}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock Text="{Binding}" />
+                        <TextBox Name="Path" LostFocus="Path_LostFocus"/>
+                        <DataGrid Name="PathContent" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <!--<DataGridTextColumn Header="" Binding="{Binding ID}"/>-->
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Änderungsdatum" Binding="{Binding ChangeDate, StringFormat=\{0:dd.MM.yy HH:mm:ss\}}"/>
+                                <DataGridTextColumn Header="Typ" Binding="{Binding Type}"/>
+                                <DataGridTextColumn Header="Größe" Binding="{Binding Size}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
