@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NotesKeeperLogic.Database.Objects;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace NotesKeeperLogic.Database
@@ -13,22 +15,40 @@ namespace NotesKeeperLogic.Database
             sql.Open();
         }
 
-        public DbResult ExecuteQuery(string query)
+        public DbResult<T> ExecuteQuery<T>(string query, bool debug = false)
         {
-            DbResult result;
+            DbResult<T> result;
 
             try
             {
+                result = new DbResult<T>("Start executing query");
+
                 using (var command = new SqlCommand(query, sql))
                 {
-                    var reader = command.ExecuteReader();
-                }
+                    using (var reader = command.ExecuteReader())
+                    {
+                        List<T> dataList = new List<T>();
 
-                result = new DbResult("");
+                        while(reader.Read())
+                        {
+                            var instance = (T)Activator.CreateInstance(typeof(T));
+
+                            string message;
+                            (instance as DbObject).ConvertDbRowToDbObject(reader, out message);
+
+                            dataList.Add(instance);
+
+                            if (debug)
+                                result.AddMessage(message, MessageType.Information);
+                        }
+
+                        result.Data = dataList;
+                    }
+                }
             }
             catch (Exception ex)
             {
-                result = new DbResult(ex);
+                result = new DbResult<T>(ex);
             }
 
             return result;

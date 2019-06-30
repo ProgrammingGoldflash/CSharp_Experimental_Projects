@@ -1,4 +1,5 @@
 ﻿using NotesKeeperLogic.Database;
+using NotesKeeperLogic.Database.Objects;
 
 namespace WindowsApplication
 {
@@ -7,6 +8,7 @@ namespace WindowsApplication
         static void Main(string[] args)
         {
             DBAccess access = new DBAccess("Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=NotesKeeper_Testing;Integrated Security=SSPI;");
+            access.ExecuteQuery<User>("SELECT * FROM [User]", true);
         }
     }
 }

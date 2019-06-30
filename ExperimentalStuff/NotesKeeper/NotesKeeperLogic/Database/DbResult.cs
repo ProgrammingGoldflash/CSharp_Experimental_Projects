@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NotesKeeperLogic.Database
 {
-    public class DbResult
+    public class DbResult<T>
     {
         public DbResult(Exception ex, string message = null)
         {
@@ -17,7 +17,7 @@ namespace NotesKeeperLogic.Database
                 Message = message;
         }
 
-        public DbResult(string message, IEnumerable<DbObject> data = null)
+        public DbResult(string message, IEnumerable<T> data = null)
         {
             Status = true;
             Message = $"{DateTime.Now} - {message} {Environment.NewLine}";
@@ -34,6 +34,6 @@ namespace NotesKeeperLogic.Database
         public bool Status { get; set; }
         public Exception Exception { get; set; }
         public string Message { get; set; }
-        public IEnumerable<DbObject> Data { get; set; }
+        public IEnumerable<T> Data { get; set; }
     }
 }
